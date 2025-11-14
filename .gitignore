@@ -1,0 +1,6 @@
+*.csv
+*.json
+node_modules
+data
+*.Ds_Store
+*.yaml
