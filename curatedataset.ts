@@ -171,6 +171,12 @@ const abstractGroupBy = <E>(data: E[], fn: (v: E) => string): Record<string, E[]
     }
     return record;
 }// groupby([1,2,3], (v: number) => v.toString()) -> {1: [1], 2: [2], 3: [3]}
+const easyGroupBy = <E>(data: E[], fn: (v: E) => string): Record<string, E[]> =>
+    data.reduce<Record<string, E[]>>((p, c) => ({
+        ...p,
+        [fn(c)]: [...(p[fn(c)] || []), c],
+    }), {});
+// easyGroupBy([1,2,3], (v) => v.toString()); // 
 // grouping all states by weather and accumulating a dataset
 const gatherStateInfo = async() => {
     const dt = await cleanedDataset()
