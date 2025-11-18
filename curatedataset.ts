@@ -80,7 +80,6 @@ const precipMapping = {
     Low: 0, // lowest precip
     Medium: 94, // average precip
     High: 300 // quasi-highest precip
-
 } as const satisfies Record<Preciplevel, number>
 const getIdealTemp = async(config: Config): Promise<CleanedDatasetInsertion[]> => {
     let dataset = await cleanedDataset()
@@ -104,21 +103,6 @@ const getIdealTemp = async(config: Config): Promise<CleanedDatasetInsertion[]> =
     })
     // sort by significance with custom score
 }
-const main = async() => {
-    let dataset = await cleanedDataset()
-    // console.log("rain metrics are");
-    // console.log(rainMetrics(dataset)); // I wanted this to check what levels are low, med, high for rain
-    const cities = await getIdealTemp({
-        idealPrecipitation: "Low",
-        idealTempF: 70,
-        idealAvgTempFluctuation:5, // more or less than 5
-        idealMinMaxFluctuation: 20
-    })
-    console.log(`your ideal city:`)
-    console.log(cities[0])
-    console.log("similar to our ideal city");
-    console.log(findSimilarOutOfState(cities[0], dataset));
-}
 
 // rain metrics to determine the "low", "med", and "high" rain categories
 const rainMetrics = (data: CleanedDatasetInsertion[]): {min: number, max: number, avg: number} => {
@@ -131,14 +115,6 @@ const rainMetrics = (data: CleanedDatasetInsertion[]): {min: number, max: number
         // avg: aggregate the sum and divide by length
         avg: sum / data.length
     }
-}
-
-// main();
-
-
-// for building relationships with data aside from the personal analysis
-const buildCSV = () => {
-    // build a csv for something
 }
 
 const findSimilarOutOfState = (to: CleanedDatasetInsertion, data: CleanedDatasetInsertion[]) => {
@@ -198,17 +174,23 @@ const gatherStateInfo = async() => {
     // we'd have to zip it somehow
 
 }
-gatherStateInfo()
 // lets build a csv that has different metrics, like state -> avg_weather
 
-const jsonToCSV = <RowType>(json: RowType[][]): string => {
-    // now we'd have to do this
-    // array of array
-    for(let i = 0; i < json.length; i++) {
-        // iterate over cols of rows
-    }
-    json.map(row => {
-        // extends an object probably
+const main = async() => {
+    let dataset = await cleanedDataset()
+    // console.log("rain metrics are");
+    // console.log(rainMetrics(dataset)); // I wanted this to check what levels are low, med, high for rain
+    const cities = await getIdealTemp({
+        idealPrecipitation: "Low",
+        idealTempF: 70,
+        idealAvgTempFluctuation:5, // more or less than 5
+        idealMinMaxFluctuation: 20
     })
-    return "idk"
+    console.log(`your ideal city:`)
+    console.log(cities[0])
+    console.log("similar to our ideal city");
+    console.log(findSimilarOutOfState(cities[0], dataset));
 }
+
+gatherStateInfo()
+// main();
